@@ -47,49 +47,49 @@ var data = [{
 //     title: "Sleep"
 // }
 // ];
-
-for(var i=0;i<data.length-1;i++){
+var temp;
+for(var i=0;i<data.length;i++){
     for(var j=i+1;j<data.length;j++){
-        if(data[i].start<data[j].start){
-            var temp=data[i];
-            var data[i]=data[j];
-            var data[j]=temp;
+        if(data[i].start>data[j].start){
+            temp=data[i];
+            data[i]=data[j];
+            data[j]=temp;
         }
     }   
 }
 
 var tempDuration;
+var totalPreviousDuration=0;
+var totalDuration=0;
+var nextDuration=0
+var prevStart=-1;
 
-var startArray=[];
 var div=document.getElementById('timeLineDiv')
 for (var i=0;i<data.length;i++){ 
+    console.log(data[i]);
     var startData=data[i].start;
-    
-    var duration=data[i].duration;
-    if (i<data.length-2) var nextDuration= data[i+1].duration;
-    if (i<data.length-2) var nextStart= data[i+1].start;
+    var duration=data[i].duration; 
+    totalDuration=startData+duration;
+    (i<data.length-1)? nextDuration=data[i+1].duration+data[i+1].start :nextDuration=0 ;
+    if(i!=0 && i<data.length) totalPreviousDuration=data[i-1].start+data[i-1].duration;
+    if(i<data.length-1) nextStart=data[i+1].start;
     var timeline=duration+"px";
     var mtop=startData+"px";
-    var startTemp=nextStart-startData;
-    console.log(startData,duration,timeline,mtop);
     var element=document.createElement('div');
     element.style.height=timeline;
     element.classList.add('timelineColor');     
     element.style.position="absolute";
     element.style.top=mtop;
-    console.log(startArray);
-    if (nextStart<=duration || (duration>startTemp && duration!=nextDuration)){
+
+    if ((totalDuration<=nextDuration && startData>totalPreviousDuration && nextStart<totalDuration) ||
+        (startData<totalPreviousDuration && totalDuration>=nextDuration)){
             element.style.marginLeft="50%";
             element.style.zIndex="1";
             element.style.borderBottom="3px solid white";
-
     }
+
     element.textContent=data[i].title;
     div.appendChild(element); 
-    tempDuration=duration;
-    startArray.push(element);
-
-                    
+    tempDuration=totalDuration;
+    prevStart=startData           
 }
-
-// nextStart<=duration
