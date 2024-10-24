@@ -1,0 +1,22 @@
+.head{
+    font-size: 25px;
+}
+.headDiv{
+    padding: 20px 60px;
+}
+.timeDivs{
+    height: 30px;
+}
+.timelineColor{    
+    background-color :#b2cee4;
+    width: 100%;
+    border-left: 2px solid rgb(70, 70, 241);
+    font-size: 12px;
+}
+.timeLine{
+    position: relative;
+    margin-top: 5px;
+}
+.time{
+    padding-bottom: auto;
+}
